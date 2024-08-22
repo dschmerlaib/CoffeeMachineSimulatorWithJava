@@ -6,45 +6,81 @@ public class CoffeeMachine {
 
     public static ArrayList<String> steps = new ArrayList<String>();
 
+    private static int Water = 0;
+    private static int Milk = 0;
+    private static int Beans = 0;
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
+
+        GetIngredientsAmount(scanner);
+        MakeCoffeeIfPossible(scanner);
+    }
+
+    private static void MakeCoffeeIfPossible(Scanner scanner) {
+
+        int possibleCoffees = PossibleAmountOfCoffees();
+
         System.out.println("Write how many cups of coffee you will need:");
         int numberOfCoffees = scanner.nextInt();
-        CreateCoffeeIngredients(numberOfCoffees);
 
 
-        //MakeCoffee();
+
+        if (numberOfCoffees == possibleCoffees) {
+            System.out.println("Yes, I can make that amount of coffee");
+        } else if (numberOfCoffees < possibleCoffees) {
+            int diff = possibleCoffees - numberOfCoffees;
+            System.out.println("Yes, I can make that amount of coffee (and even " + diff + " more than that)");
+        } else {
+            System.out.println("No, I can make only " + possibleCoffees + " cup(s) of coffee");
+        }
+
+
     }
 
-    private static void CreateCoffeeIngredients(int numberOfCoffees) {
+    private static void GetIngredientsAmount(Scanner scanner) {
 
+        System.out.println("Write how many ml of water the coffee machine has:");
+        Water = scanner.nextInt();
+        System.out.println("Write how many ml of milk the coffee machine has:");
+        Milk = scanner.nextInt();
+        System.out.println("Write how many grams of coffee beans the coffee machine has:");
+        Beans = scanner.nextInt();
+
+
+
+    }
+
+    private static int ValidateWater() {
         final int waterPerCoffee = 200; // ml
-        final int beansPerCoffee = 15; //grains
+        return Water / waterPerCoffee;
+    }
+
+    private static int ValidateMilk() {
         final int milkPerCoffee = 50; // ml
+        return Milk / milkPerCoffee;
+    }
 
-        System.out.println("For " + numberOfCoffees + " cups of coffee you will need:");
-        System.out.println(numberOfCoffees * waterPerCoffee + " ml of water");
-        System.out.println(numberOfCoffees * milkPerCoffee + " ml of milk");
-        System.out.println(numberOfCoffees * beansPerCoffee + " g of coffee beans");
-
+    private static int ValidateBeans() {
+        final int beansPerCoffee = 15; //grains
+        return Beans / beansPerCoffee;
     }
 
 
-    private static void MakeCoffee() {
+    private static int PossibleAmountOfCoffees() {
 
+        int water = ValidateWater();
+        int milk = ValidateMilk();
+        int beans = ValidateBeans();
 
-        System.out.println("Starting to make a coffee");
-        System.out.println("Grinding coffee beans");
-        System.out.println("Boiling water");
-        System.out.println("Mixing boiled water with crushed coffee beans");
-        System.out.println("Pouring coffee into the cup");
-        System.out.println("Pouring some milk into the cup");
-        System.out.println("Coffee is ready !");
+        int res = Math.min(water, Math.min(milk, beans));
+
+        return res;
 
     }
+
 
 }
 
