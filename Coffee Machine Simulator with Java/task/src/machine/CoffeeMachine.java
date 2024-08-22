@@ -8,26 +8,41 @@ public class CoffeeMachine {
 
 
     public static void main(String[] args) {
-        AddSteps();
-        MakeCoffee();
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Write how many cups of coffee you will need:");
+        int numberOfCoffees = scanner.nextInt();
+        CreateCoffeeIngredients(numberOfCoffees);
+
+
+        //MakeCoffee();
     }
 
-    private static void AddSteps() {
+    private static void CreateCoffeeIngredients(int numberOfCoffees) {
 
-        steps.add(" Starting to make a coffee");
-        steps.add(" Grinding coffee beans");
-        steps.add(" Boiling water");
-        steps.add(" Mixing boiled water with crushed coffee beans");
-        steps.add(" Pouring coffee into the cup");
-        steps.add("  Pouring some milk into the cup");
-        steps.add(" Coffee is ready !");
+        final int waterPerCoffee = 200; // ml
+        final int beansPerCoffee = 15; //grains
+        final int milkPerCoffee = 50; // ml
+
+        System.out.println("For " + numberOfCoffees + " cups of coffee you will need:");
+        System.out.println(numberOfCoffees * waterPerCoffee + " ml of water");
+        System.out.println(numberOfCoffees * milkPerCoffee + " ml of milk");
+        System.out.println(numberOfCoffees * beansPerCoffee + " g of coffee beans");
+
     }
+
 
     private static void MakeCoffee() {
 
-        for (String step : steps) {
-            System.out.println(step);
-        }
+
+        System.out.println("Starting to make a coffee");
+        System.out.println("Grinding coffee beans");
+        System.out.println("Boiling water");
+        System.out.println("Mixing boiled water with crushed coffee beans");
+        System.out.println("Pouring coffee into the cup");
+        System.out.println("Pouring some milk into the cup");
+        System.out.println("Coffee is ready !");
 
     }
 
