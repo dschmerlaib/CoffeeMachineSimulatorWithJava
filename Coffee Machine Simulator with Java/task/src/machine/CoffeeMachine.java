@@ -39,52 +39,93 @@ class Machine {
     }
 
     public void HandleAction() {
-        System.out.println("Write action (buy, fill, take): ");
-        String action = scanner.nextLine();
 
-        switch (action) {
-            case "buy":
+        boolean repeat = true;
 
-                Buy();
+        while (repeat) {
+            System.out.println("Write action (buy, fill, take, remaining, exit): ");
+            String action = scanner.nextLine();
 
+            switch (action) {
+                case "buy":
+                    Buy();
+                    break;
+                case "fill":
+                    Fill();
+                    break;
+                case "take":
+                    Take();
+                    break;
+                case "remaining":
+                    PrintStatus();
+                    break;
+                case "exit":
+                    repeat = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+    }
+
+    public void Buy() {
+
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:");
+        String selection = scanner.nextLine();
+
+        switch (selection) {
+            case "1":
+                Brew("espresso");
                 break;
-            case "fill":
-                Fill();
+            case "2":
+                Brew("latte");
                 break;
-            case "take":
-                Take();
+            case "3":
+                Brew("cappuccino");
+                break;
+            case "back":
                 break;
             default:
                 break;
         }
     }
 
-    public void Buy() {
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ");
-        int selection = scanner.nextInt();
-        String selectionName = "";
-
-        switch (selection) {
-            case 1:
-                selectionName = "espresso";
-                break;
-            case 2:
-                selectionName = "latte";
-                break;
-            case 3:
-                selectionName = "cappuccino";
-                break;
-            default:
-                break;
-        }
-
+    public void Brew(String selectionName) {
         Coffee coffee = Assortment.get(selectionName);
 
-        Water -= coffee.RequiredWater;
-        Milk -= coffee.RequiredMilk;
-        Beans -= coffee.RequiredBeans;
-        Money += coffee.Costs;
-        DisposableCups--;
+        boolean enoughResources = Validate(coffee); // todo
+
+        if (enoughResources) {
+            Water -= coffee.RequiredWater;
+            Milk -= coffee.RequiredMilk;
+            Beans -= coffee.RequiredBeans;
+            Money += coffee.Costs;
+            DisposableCups--;
+
+            System.out.println("I have enough resources, making you a coffee!");
+        }
+    }
+
+    public boolean Validate(Coffee coffee) {
+
+        if (Water < coffee.RequiredWater) {
+            System.out.println("Sorry, not enough water!");
+            return false;
+        } else if (Milk < coffee.RequiredMilk) {
+            System.out.println("Sorry, not enough milk!");
+            return false;
+        } else if (Beans < coffee.RequiredBeans) {
+            System.out.println("Sorry, not enough beans!");
+            return false;
+        } else if (DisposableCups == 0) {
+            System.out.println("Sorry, not enough cups!");
+            return false;
+        } else {
+            return true;
+        }
+
 
     }
 
@@ -129,12 +170,12 @@ public class CoffeeMachine {
 
 
         Machine machine = new Machine(new Scanner(System.in));
-        machine.PrintStatus();
+
         machine.HandleAction();
-        machine.PrintStatus();
+
 
     }
-    
+
 }
 
 
