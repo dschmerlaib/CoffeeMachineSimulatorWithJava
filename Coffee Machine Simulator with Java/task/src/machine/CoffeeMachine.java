@@ -95,7 +95,7 @@ class Machine {
     public void Brew(String selectionName) {
         Coffee coffee = Assortment.get(selectionName);
 
-        boolean enoughResources = Validate(coffee); // todo
+        boolean enoughResources = Validate(coffee);
 
         if (enoughResources) {
             Water -= coffee.RequiredWater;
@@ -110,23 +110,25 @@ class Machine {
 
     public boolean Validate(Coffee coffee) {
 
+        boolean validationResult = false;
+
         if (Water < coffee.RequiredWater) {
             System.out.println("Sorry, not enough water!");
-            return false;
+
         } else if (Milk < coffee.RequiredMilk) {
             System.out.println("Sorry, not enough milk!");
-            return false;
+
         } else if (Beans < coffee.RequiredBeans) {
             System.out.println("Sorry, not enough beans!");
-            return false;
+
         } else if (DisposableCups == 0) {
             System.out.println("Sorry, not enough cups!");
-            return false;
+
         } else {
-            return true;
+            validationResult = true;
         }
 
-
+        return validationResult;
     }
 
     public void Fill() {
